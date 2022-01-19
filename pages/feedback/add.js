@@ -7,6 +7,11 @@ import SelectFeature from "../../components/dropdown/SelectFeature";
 
 export default function AddFeedback() {
   const [active, setActive] = useState("Feature");
+  const [data, setData] = useState({ title: "", detail: "" });
+
+  const handleChange = (e) =>
+    setData({ ...data, [e.target.name]: e.target.value });
+
   return (
     <Layout title="Create Feedback">
       <F.Container>
@@ -23,7 +28,12 @@ export default function AddFeedback() {
           <F.Title>Create New Feedback</F.Title>
           <F.Label>Feedback Title</F.Label>
           <F.Label light>Add a short, descriptive headline</F.Label>
-          <F.Input type="text" name="title" />
+          <F.Input
+            type="text"
+            name="title"
+            value={data.title}
+            onChange={handleChange}
+          />
 
           <F.Label>Category</F.Label>
           <F.Label light>Choose a category for your feedback</F.Label>
@@ -34,7 +44,12 @@ export default function AddFeedback() {
             Include any specific comments on what should be improved, added,
             etc.
           </F.Label>
-          <F.Textarea type="text" name="detail" />
+          <F.Textarea
+            type="text"
+            name="detail"
+            value={data.detail}
+            onChange={handleChange}
+          />
 
           <F.Buttons>
             <Link href="/">
