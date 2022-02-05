@@ -4,8 +4,11 @@ export const ButtonLink = styled.a`
   font-size: 13px;
   font-weight: 600;
   color: #4661e6;
-  text-decoration: underline;
   cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 export const Button = styled.a`

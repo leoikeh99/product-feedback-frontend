@@ -77,7 +77,7 @@ const Item = styled.li`
   width: 100%;
   padding: 12px 24px;
   list-style: none;
-  color: ${({ active }) => (active ? "#AD1FEA" : "#647196")};
+  color: #647196;
   border-bottom: 1px solid rgba(58, 67, 116, 0.15);
   display: flex;
   align-items: center;
@@ -85,5 +85,9 @@ const Item = styled.li`
 
   &:last-child {
     border-radius: 0 0 10px 10px;
+  }
+
+  &:hover {
+    color: #ad1fea;
   }
 `;

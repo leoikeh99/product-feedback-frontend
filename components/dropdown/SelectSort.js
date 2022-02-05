@@ -20,7 +20,11 @@ export default function SelectSort({ active, setActive }) {
       {show && (
         <DropDown>
           {options.map((option) => (
-            <Item onClick={() => setActive(option)}>
+            <Item
+              onClick={() => {
+                setActive(option);
+                localStorage.setItem("sort", option);
+              }}>
               {option}
               {active === option && (
                 <img src="/assets/shared/icon-check.svg" alt="" />

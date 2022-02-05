@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SelectSort from "../components/dropdown/SelectSort";
 import Layout from "../components/Layout";
 import SideBar from "../components/SideBar";
@@ -10,6 +10,12 @@ import FeedbackItem from "../components/FeedbackItem";
 
 export default function Home() {
   const [active, setActive] = useState("Most Upvotes");
+
+  useEffect(() => {
+    const sortType = localStorage.getItem("sort");
+    setActive(sortType ? sortType : "Most Upvotes");
+  }, []);
+
   return (
     <Layout>
       <H.HomeContainer>

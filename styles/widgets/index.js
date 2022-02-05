@@ -48,3 +48,7 @@ export const UpvoteTag = styled.span`
     background: #cfd7ff;
   }
 `;
+
+export const Margin = styled.div`
+  margin: ${({ m }) => m}px;
+`;
