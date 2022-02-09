@@ -13,7 +13,9 @@ a {
   text-decoration: none;
 }
 
-button {
+button,
+input,
+textarea {
   font-family: "Jost", sans-serif;
 }
 

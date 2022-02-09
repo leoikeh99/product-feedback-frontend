@@ -29,12 +29,12 @@ export const Flex = styled.div`
 
 export const UpvoteTag = styled.span`
   display: block;
-  color: #3a4374;
+  color: ${({ active }) => (!active ? "#3a4374" : "#fff")};
   font-size: 13px;
   font-weight: 700;
   height: 53px;
   width: 40px;
-  background: #f2f4fe;
+  background: ${({ active }) => (!active ? "#f2f4fe" : "#4661E6")};
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -45,7 +45,7 @@ export const UpvoteTag = styled.span`
   cursor: pointer;
 
   &:hover {
-    background: #cfd7ff;
+    background: ${({ active }) => !active && "#cfd7ff"};
   }
 `;
 

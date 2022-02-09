@@ -1,5 +1,7 @@
 import "../styles/globals.css";
 import { ThemeProvider } from "styled-components";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function MyApp({ Component, pageProps }) {
   const theme = {
@@ -11,6 +13,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <ThemeProvider theme={theme}>
+      <ToastContainer />
       <Component {...pageProps} />
     </ThemeProvider>
   );

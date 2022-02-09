@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import Layout from "../../components/Layout";
 import * as F from "../../styles/FeedbackDetailStyles";
 import * as W from "../../styles/widgets";
@@ -7,8 +7,13 @@ import * as B from "../../styles/widgets/Buttons";
 import FeedbackItem from "../../components/FeedbackItem";
 import Comment from "../../components/comment/Comment";
 import AddComment from "../../components/comment/AddComment";
+import axios from "axios";
 
-export default function FeedbackDetail({ reply }) {
+export default function FeedbackDetail({ feedback, cmts }) {
+  const [comments, setComments] = useState(cmts);
+
+  const addComment = (comment) => setComments([...comments, comment]);
+
   return (
     <Layout title="Feedback Detail">
       <F.Container>
@@ -22,14 +27,34 @@ export default function FeedbackDetail({ reply }) {
           <B.Button bg="blue">Edit Feedback</B.Button>
         </W.SpaceOut>
         <W.Margin m={24} />
-        <FeedbackItem />
+        <FeedbackItem feedback={feedback} />
         <F.CommentWrapper>
-          <F.Header>4 Comments</F.Header>
-          <Comment />
-          <Comment reply={true} />
+          <F.Header>{comments.length} Comments</F.Header>
+          {comments.map((comment) => (
+            <Comment key={comment.id} comment={comment} />
+          ))}
         </F.CommentWrapper>
-        <AddComment />
+        <AddComment feedback={feedback} addComment={addComment} />
       </F.Container>
     </Layout>
   );
+}
+
+export async function getServerSideProps({ params: { id } }) {
+  const res = await axios.get(
+    `http://localhost:1337/api/feedbacks/${id}/?populate=*`
+  );
+
+  const res2 = await axios.get(
+    `http://localhost:1337/api/comments/?populate=*&filters[feedback][id][$eq]=${id}`
+  );
+
+  console.log(res.data.data);
+
+  return {
+    props: {
+      feedback: res.data.data,
+      cmts: res2.data.data,
+    },
+  };
 }

@@ -7,8 +7,9 @@ import * as W from "../styles/widgets";
 import { Button } from "../styles/widgets/Buttons";
 import Link from "next/link";
 import FeedbackItem from "../components/FeedbackItem";
+import axios from "axios";
 
-export default function Home() {
+export default function Home({ feedbacks }) {
   const [active, setActive] = useState("Most Upvotes");
 
   useEffect(() => {
@@ -28,7 +29,7 @@ export default function Home() {
                   src="/assets/suggestions/icon-suggestions.svg"
                   alt="icon"
                 />
-                <p>6 Suggestions</p>
+                <p>{feedbacks.length} Suggestions</p>
               </W.Flex>
               <SelectSort active={active} setActive={setActive} />
             </W.Flex>
@@ -37,13 +38,24 @@ export default function Home() {
             </Link>
           </H.Header>
           <H.Feedbacks>
-            <FeedbackItem />
-            <FeedbackItem />
-            <FeedbackItem />
-            <FeedbackItem />
+            {feedbacks.map((feedback) => (
+              <FeedbackItem feedback={feedback} key={feedback.id} />
+            ))}
           </H.Feedbacks>
         </H.Main>
       </H.HomeContainer>
     </Layout>
   );
+}
+
+export async function getServerSideProps() {
+  const res = await axios.get(
+    "http://localhost:1337/api/feedbacks/?populate=*"
+  );
+
+  return {
+    props: {
+      feedbacks: res.data.data,
+    },
+  };
 }

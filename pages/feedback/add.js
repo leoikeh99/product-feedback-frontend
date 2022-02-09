@@ -1,16 +1,50 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 import Layout from "../../components/Layout";
 import * as F from "../../styles/FeedbackFormStyles";
 import * as B from "../../styles/widgets/Buttons";
 import Link from "next/link";
 import SelectFeature from "../../components/dropdown/SelectFeature";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function AddFeedback() {
   const [active, setActive] = useState("Feature");
-  const [data, setData] = useState({ title: "", detail: "" });
+  const [data, setData] = useState({ title: "", description: "" });
+  const router = useRouter();
 
   const handleChange = (e) =>
     setData({ ...data, [e.target.name]: e.target.value });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const hasEmptyFields = Object.values(data).some(
+      (data) => data.trim() === ""
+    );
+
+    if (hasEmptyFields) return toast.error("All fields are required");
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const postData = {
+      ...data,
+      tag: active,
+      user: 1,
+    };
+
+    await axios
+      .post("http://localhost:1337/api/feedbacks", { data: postData }, config)
+      .then((res) => {
+        toast.success("Feedback created");
+        router.push(`/feedback/${res.data.data.id}`);
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <Layout title="Create Feedback">
@@ -21,7 +55,7 @@ export default function AddFeedback() {
             Go back
           </B.Back>
         </Link>
-        <F.Form>
+        <F.Form onSubmit={handleSubmit}>
           <F.Icon>
             <img src="/assets/shared/icon-new-feedback.svg" alt="" />
           </F.Icon>
@@ -46,8 +80,8 @@ export default function AddFeedback() {
           </F.Label>
           <F.Textarea
             type="text"
-            name="detail"
-            value={data.detail}
+            name="description"
+            value={data.description}
             onChange={handleChange}
           />
 
@@ -57,9 +91,7 @@ export default function AddFeedback() {
                 Cancel
               </B.Button>
             </Link>
-            <B.Button bg="purple" type="button">
-              Add Feedback
-            </B.Button>
+            <B.Button bg="purple">Add Feedback</B.Button>
           </F.Buttons>
         </F.Form>
       </F.Container>

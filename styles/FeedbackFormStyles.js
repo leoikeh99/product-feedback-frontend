@@ -35,6 +35,8 @@ export const Label = styled.label`
 export const Input = styled.input`
   width: 100%;
   height: 48px;
+  font-size: 15px;
+  color: #3a4374;
   border: 0;
   border-radius: 5px;
   background: #f7f8fd;
@@ -45,6 +47,8 @@ export const Input = styled.input`
 export const Textarea = styled.textarea`
   width: 100%;
   height: 96px;
+  font-size: 15px;
+  color: #3a4374;
   border: 0;
   border-radius: 5px;
   background: #f7f8fd;
