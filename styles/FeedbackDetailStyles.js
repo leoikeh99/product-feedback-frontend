@@ -102,4 +102,5 @@ export const AddCommentWrapper = styled.div`
   padding: 24px 34px;
   background: #fff;
   border-radius: 10px;
+  position: relative;
 `;

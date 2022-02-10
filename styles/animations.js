@@ -11,3 +11,17 @@ export const getIn = keyframes`
     transform:scale(1);
   }
 `;
+
+export const loader1 = keyframes`
+0% {
+  width: 50px;
+}
+
+50%{
+  width: 95%;
+}
+
+100% {
+  width: 50px;
+}
+`;

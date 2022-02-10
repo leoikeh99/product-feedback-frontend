@@ -59,7 +59,9 @@ export default function FeedbackItem({ feedback: { attributes, id } }) {
       </W.Flex>
       <F.RightSide>
         <img src="/assets/shared/icon-comments.svg" alt="" />
-        {attributes.comments.data ? attributes.comments.data.length : 0}
+        {attributes.comments.data
+          ? attributes.comments.data.length + attributes.replies.data.length
+          : 0}
       </F.RightSide>
     </F.Cover>
   );

@@ -52,3 +52,9 @@ export const UpvoteTag = styled.span`
 export const Margin = styled.div`
   margin: ${({ m }) => m}px;
 `;
+
+export const At = styled.span`
+  font-size: inherit;
+  font-weight: 700;
+  color: #ad1fea;
+`;

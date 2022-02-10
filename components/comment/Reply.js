@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import * as F from "../../styles/FeedbackDetailStyles";
 import * as W from "../../styles/widgets";
 import * as B from "../../styles/widgets/Buttons";
+import AddReply from "./AddReply";
 
-export default function Reply() {
+export default function Reply({ reply: { attributes }, addReply }) {
+  const [showAdd, setShowAdd] = useState(false);
+
   return (
     <F.Reply>
       <W.SpaceOut>
@@ -15,20 +18,26 @@ export default function Reply() {
           />
 
           <div>
-            <F.Name>Elijah Moss</F.Name>
-            <F.Text sm>@hexagon.bestagon</F.Text>
+            <F.Name>{attributes.user.data.attributes.username}</F.Name>
+            <F.Text sm>@{attributes.user.data.attributes.username}</F.Text>
           </div>
         </W.Flex>
-        <B.ButtonLink>Reply</B.ButtonLink>
+        <B.ButtonLink onClick={() => setShowAdd(!showAdd)}>Reply</B.ButtonLink>
       </W.SpaceOut>
       <F.Desc>
         <F.Text>
-          Also, please allow styles to be applied based on system preferences. I
-          would love to be able to browse Frontend Mentor in the evening after
-          my device's dark mode turns on without the bright background it
-          currently has.
+          <W.At>@{attributes.reply_to.data.attributes.username}</W.At>{" "}
+          {attributes.message}
         </F.Text>
       </F.Desc>
+      {showAdd && (
+        <AddReply
+          commentId={attributes.comment.data.id}
+          reply_to={attributes.user.data.id}
+          feedbackId={attributes.feedback.data.id}
+          addReply={addReply}
+        />
+      )}
     </F.Reply>
   );
 }

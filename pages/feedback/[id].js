@@ -9,7 +9,7 @@ import Comment from "../../components/comment/Comment";
 import AddComment from "../../components/comment/AddComment";
 import axios from "axios";
 
-export default function FeedbackDetail({ feedback, cmts }) {
+export default function FeedbackDetail({ feedback, cmts, replies }) {
   const [comments, setComments] = useState(cmts);
 
   const addComment = (comment) => setComments([...comments, comment]);
@@ -29,9 +29,15 @@ export default function FeedbackDetail({ feedback, cmts }) {
         <W.Margin m={24} />
         <FeedbackItem feedback={feedback} />
         <F.CommentWrapper>
-          <F.Header>{comments.length} Comments</F.Header>
+          <F.Header>{comments.length + replies.length} Comments</F.Header>
           {comments.map((comment) => (
-            <Comment key={comment.id} comment={comment} />
+            <Comment
+              key={comment.id}
+              comment={comment}
+              rpls={replies.filter(
+                (val) => val.attributes.comment.data.id === comment.id
+              )}
+            />
           ))}
         </F.CommentWrapper>
         <AddComment feedback={feedback} addComment={addComment} />
@@ -49,12 +55,15 @@ export async function getServerSideProps({ params: { id } }) {
     `http://localhost:1337/api/comments/?populate=*&filters[feedback][id][$eq]=${id}`
   );
 
-  console.log(res.data.data);
+  const res3 = await axios.get(
+    `http://localhost:1337/api/replies/?populate=*&filters[feedback][id][$eq]=${id}`
+  );
 
   return {
     props: {
       feedback: res.data.data,
       cmts: res2.data.data,
+      replies: res3.data.data,
     },
   };
 }
