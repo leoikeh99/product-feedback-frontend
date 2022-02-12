@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import * as S from "../styles/SidebarStyles";
 import * as W from "../styles/widgets";
 import * as B from "../styles/widgets/Buttons";
 import Link from "next/link";
+import AuthContext from "../context/AuthContext";
 
-export default function SideBar() {
+export default function SideBar({ activeTag, setActiveTag }) {
   const tags = ["All", "UI", "UX", "Enhancement", "Bug", "Feature"];
+  const { user, logout } = useContext(AuthContext);
+
   return (
     <S.Container>
       <S.TopCard>
@@ -15,14 +18,19 @@ export default function SideBar() {
       <S.Card>
         <S.Tags>
           {tags.map((tag) => (
-            <W.Tag key={tag}>{tag}</W.Tag>
+            <W.Tag
+              key={tag}
+              active={activeTag === tag}
+              onClick={() => setActiveTag(tag)}>
+              {tag}
+            </W.Tag>
           ))}
         </S.Tags>
       </S.Card>
       <S.Card>
         <W.SpaceOut>
           <p className="title">Roadmap</p>
-          <Link href="/">
+          <Link href="/roadmap">
             <B.ButtonLink>View</B.ButtonLink>
           </Link>
         </W.SpaceOut>
@@ -47,6 +55,25 @@ export default function SideBar() {
           </li>
         </ul>
       </S.Card>
+      <S.ProfileCard>
+        {user ? (
+          <>
+            <img src={user.avatar} alt="" />
+            <div>
+              <p>{user.username}</p>
+              <B.ButtonLink>Edit profile {">"}</B.ButtonLink>
+            </div>
+            <i className="fa-solid fa-power-off" onClick={() => logout()}>
+              {" "}
+              Logout
+            </i>
+          </>
+        ) : (
+          <Link href="/auth/login">
+            <B.ButtonLink>Login {">"}</B.ButtonLink>
+          </Link>
+        )}
+      </S.ProfileCard>
     </S.Container>
   );
 }

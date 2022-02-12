@@ -8,9 +8,11 @@ import { Button } from "../styles/widgets/Buttons";
 import Link from "next/link";
 import FeedbackItem from "../components/FeedbackItem";
 import axios from "axios";
+import { getSortedData, parseCookies } from "../helpers";
 
 export default function Home({ feedbacks }) {
   const [active, setActive] = useState("Most Upvotes");
+  const [activeTag, setActiveTag] = useState("All");
 
   useEffect(() => {
     const sortType = localStorage.getItem("sort");
@@ -20,7 +22,7 @@ export default function Home({ feedbacks }) {
   return (
     <Layout>
       <H.HomeContainer>
-        <SideBar />
+        <SideBar activeTag={activeTag} setActiveTag={setActiveTag} />
         <H.Main>
           <H.Header>
             <W.Flex gap={38}>
@@ -29,7 +31,14 @@ export default function Home({ feedbacks }) {
                   src="/assets/suggestions/icon-suggestions.svg"
                   alt="icon"
                 />
-                <p>{feedbacks.length} Suggestions</p>
+                <p>
+                  {activeTag === "All"
+                    ? feedbacks.length
+                    : feedbacks.filter(
+                        (feedback) => feedback.attributes.tag === activeTag
+                      ).length}{" "}
+                  Suggestions
+                </p>
               </W.Flex>
               <SelectSort active={active} setActive={setActive} />
             </W.Flex>
@@ -38,7 +47,7 @@ export default function Home({ feedbacks }) {
             </Link>
           </H.Header>
           <H.Feedbacks>
-            {feedbacks.map((feedback) => (
+            {getSortedData(active, activeTag, feedbacks).map((feedback) => (
               <FeedbackItem feedback={feedback} key={feedback.id} />
             ))}
           </H.Feedbacks>
@@ -48,10 +57,12 @@ export default function Home({ feedbacks }) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ req }) {
   const res = await axios.get(
     "http://localhost:1337/api/feedbacks/?populate=*"
   );
+
+  console.log(parseCookies(req));
 
   return {
     props: {

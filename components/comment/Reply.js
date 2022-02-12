@@ -4,15 +4,20 @@ import * as W from "../../styles/widgets";
 import * as B from "../../styles/widgets/Buttons";
 import AddReply from "./AddReply";
 
-export default function Reply({ reply: { attributes }, addReply }) {
+export default function Reply({ reply: { attributes }, addReply, token }) {
   const [showAdd, setShowAdd] = useState(false);
+
+  const add = (reply) => {
+    setShowAdd(false);
+    addReply(reply);
+  };
 
   return (
     <F.Reply>
       <W.SpaceOut>
         <W.Flex gap={32}>
           <F.Avatar
-            src="/assets/user-images/image-elijah.jpg"
+            src={attributes.user.data.attributes.avatar}
             height={40}
             width={40}
           />
@@ -35,7 +40,8 @@ export default function Reply({ reply: { attributes }, addReply }) {
           commentId={attributes.comment.data.id}
           reply_to={attributes.user.data.id}
           feedbackId={attributes.feedback.data.id}
-          addReply={addReply}
+          token={token}
+          addReply={add}
         />
       )}
     </F.Reply>

@@ -78,6 +78,7 @@ export const Avatar = styled.img`
   height: 40px;
   width: 40px;
   border-radius: 50%;
+  border: 2px solid #3a4374;
 `;
 
 export const Text = styled.p`

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useRouter } from "next/router";
 import Layout from "../../components/Layout";
 import * as F from "../../styles/FeedbackFormStyles";
@@ -7,10 +7,12 @@ import Link from "next/link";
 import SelectFeature from "../../components/dropdown/SelectFeature";
 import axios from "axios";
 import { toast } from "react-toastify";
+import AuthContext from "../../context/AuthContext";
 
 export default function AddFeedback() {
   const [active, setActive] = useState("Feature");
   const [data, setData] = useState({ title: "", description: "" });
+  const { user } = useContext(AuthContext);
   const router = useRouter();
 
   const handleChange = (e) =>
@@ -25,6 +27,11 @@ export default function AddFeedback() {
 
     if (hasEmptyFields) return toast.error("All fields are required");
 
+    if (!user) {
+      toast.error("You have to be logged in");
+      return;
+    }
+
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -34,7 +41,8 @@ export default function AddFeedback() {
     const postData = {
       ...data,
       tag: active,
-      user: 1,
+      user: user.id,
+      upvotes: [],
     };
 
     await axios

@@ -21,6 +21,7 @@ export default function SelectSort({ active, setActive }) {
         <DropDown>
           {options.map((option) => (
             <Item
+              key={option}
               onClick={() => {
                 setActive(option);
                 localStorage.setItem("sort", option);
@@ -39,6 +40,7 @@ export default function SelectSort({ active, setActive }) {
 
 const Cover = styled.div`
   position: relative;
+  z-index: 2;
 `;
 
 const Label = styled.p`

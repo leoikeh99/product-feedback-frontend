@@ -2,15 +2,16 @@ import styled from "styled-components";
 
 export const Tag = styled.span`
   display: inline-block;
-  color: #4661e6;
-  background: #f2f4ff;
+  color: ${({ active }) => (active ? "#fff" : "#4661e6")};
+  background: ${({ active }) => (active ? "#4661E6" : "#f2f4ff")};
   padding: 6px 16px;
   border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
+  font-size: 13px;
 
   &:hover {
-    background: #cfd7ff;
+    background: ${({ active }) => !active && "#cfd7ff"};
   }
 `;
 

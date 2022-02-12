@@ -1,24 +1,34 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { Button } from "../../styles/widgets/Buttons";
 import { getIn } from "../../styles/animations";
+import { toast } from "react-toastify";
 import axios from "axios";
+import AuthContext from "../../context/AuthContext";
+import BtnLoader from "../BtnLoader";
 
 export default function AddReply({
   commentId,
   reply_to,
   feedbackId,
   addReply,
+  token,
 }) {
   const [message, setMessage] = useState("");
+  const [loader, setLoader] = useState(false);
+  const { user } = useContext(AuthContext);
 
   const handleClick = async () => {
     if (message.trim() === "") return;
 
+    if (!user) {
+      toast.error("You have to be logged in");
+      return;
+    }
+
     const data = {
       message,
       reply_to,
-      user: 1,
       comment: commentId,
       feedback: feedbackId,
     };
@@ -26,8 +36,11 @@ export default function AddReply({
     const config = {
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     };
+
+    setLoader(true);
 
     await axios
       .post("http://localhost:1337/api/replies/", { data }, config)
@@ -46,6 +59,8 @@ export default function AddReply({
       .catch((err) => {
         console.log(err);
       });
+
+    setLoader(false);
   };
 
   return (
@@ -53,6 +68,7 @@ export default function AddReply({
       <TextArea value={message} onChange={(e) => setMessage(e.target.value)} />
       <div style={{ width: "100%", maxWidth: "fit-content" }}>
         <Button onClick={handleClick} bg="purple">
+          <BtnLoader loader={loader} />
           Post Reply
         </Button>
       </div>

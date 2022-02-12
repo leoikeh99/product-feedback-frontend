@@ -5,13 +5,17 @@ import * as B from "../../styles/widgets/Buttons";
 import AddReply from "./AddReply";
 import Reply from "./Reply";
 
-export default function Comment({ comment: { attributes, id }, rpls }) {
+export default function Comment({
+  comment: { attributes, id },
+  replies,
+  addReply,
+  token,
+}) {
   const [showAdd, setShowAdd] = useState(false);
-  const [replies, setReplies] = useState(rpls);
 
-  const addReply = (reply) => {
+  const add = (reply) => {
     setShowAdd(false);
-    setReplies([...replies, reply]);
+    addReply(reply);
   };
 
   return (
@@ -19,7 +23,7 @@ export default function Comment({ comment: { attributes, id }, rpls }) {
       <W.SpaceOut>
         <W.Flex gap={32}>
           <F.Avatar
-            src="/assets/user-images/image-elijah.jpg"
+            src={attributes.user.data.attributes.avatar}
             height={40}
             width={40}
           />
@@ -41,12 +45,13 @@ export default function Comment({ comment: { attributes, id }, rpls }) {
           commentId={id}
           reply_to={attributes.user.data.id}
           feedbackId={attributes.feedback.data.id}
-          addReply={addReply}
+          token={token}
+          addReply={add}
         />
       )}
       {replies.length !== 0 &&
         replies.map((reply) => (
-          <Reply key={reply.id} reply={reply} addReply={addReply} />
+          <Reply key={reply.id} reply={reply} addReply={add} token={token} />
         ))}
     </F.Comment>
   );

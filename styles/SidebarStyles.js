@@ -65,6 +65,38 @@ export const Card = styled.div`
   }
 `;
 
+export const ProfileCard = styled.div`
+  background: #fff;
+  padding: 18px;
+  border-radius: 10px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+
+  img {
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    border: 2px solid #3a4374;
+  }
+
+  p {
+    color: #3a4374;
+    font-weight: 700;
+  }
+
+  i {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 10px;
+    color: ${({ theme }) => theme.red.normal};
+    cursor: pointer;
+  }
+`;
+
 export const Tags = styled.div`
   display: flex;
   align-items: center;

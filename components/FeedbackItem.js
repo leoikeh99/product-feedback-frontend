@@ -1,14 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import * as F from "../styles/FeedbackItemStyles";
 import * as W from "../styles/widgets";
 import axios from "axios";
 import Link from "next/link";
+import { toast } from "react-toastify";
+import AuthContext from "../context/AuthContext";
 
-export default function FeedbackItem({ feedback: { attributes, id } }) {
+export default function FeedbackItem({
+  feedback: { attributes, id },
+  updatedNum,
+}) {
   const [upvotes, setUpvotes] = useState(attributes.upvotes);
+  const { user } = useContext(AuthContext);
 
   const upvote = async () => {
-    console.log("yes");
+    if (!user) {
+      toast.error("You have to be logged in");
+      return;
+    }
+
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -17,11 +27,11 @@ export default function FeedbackItem({ feedback: { attributes, id } }) {
 
     let upvts;
     if (!upvotes) {
-      upvts = [1];
+      upvts = [user.id];
     } else {
-      upvts = upvotes.some((val) => val === 1)
-        ? upvotes.filter((val) => val !== 1)
-        : [...upvotes, 1];
+      upvts = upvotes.some((val) => val === user.id)
+        ? upvotes.filter((val) => val !== user.id)
+        : [...upvotes, user.id];
     }
     setUpvotes(upvts);
 
@@ -41,8 +51,8 @@ export default function FeedbackItem({ feedback: { attributes, id } }) {
       <W.Flex gap={40}>
         <W.UpvoteTag
           onClick={() => upvote()}
-          active={upvotes && upvotes.some((val) => val === 1)}>
-          {upvotes && upvotes.some((val) => val === 1) ? (
+          active={user && upvotes && upvotes.some((val) => val === user.id)}>
+          {user && upvotes && upvotes.some((val) => val === user.id) ? (
             <img src="/assets/shared/icon-arrow-up-light.svg" alt="" />
           ) : (
             <img src="/assets/shared/icon-arrow-up.svg" alt="" />
@@ -59,7 +69,9 @@ export default function FeedbackItem({ feedback: { attributes, id } }) {
       </W.Flex>
       <F.RightSide>
         <img src="/assets/shared/icon-comments.svg" alt="" />
-        {attributes.comments.data
+        {updatedNum
+          ? updatedNum
+          : attributes.comments.data
           ? attributes.comments.data.length + attributes.replies.data.length
           : 0}
       </F.RightSide>

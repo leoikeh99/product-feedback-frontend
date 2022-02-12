@@ -12,6 +12,10 @@ export const ButtonLink = styled.a`
 `;
 
 export const Button = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   border: 0;
   padding: 12px 24px;
   border-radius: 10px;

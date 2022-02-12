@@ -8,6 +8,11 @@ export const Container = styled.div`
 export const Icon = styled.span`
   display: block;
   margin-top: -67px;
+
+  img {
+    height: 56px;
+    width: 56px;
+  }
 `;
 
 export const Form = styled.form`

@@ -1,26 +1,34 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import * as F from "../../styles/FeedbackDetailStyles";
 import * as W from "../../styles/widgets";
 import * as B from "../../styles/widgets/Buttons";
 import { Loader1 } from "../../styles/LoaderStyles";
+import AuthContext from "../../context/AuthContext";
+import { toast } from "react-toastify";
 
-export default function AddComment({ feedback, addComment }) {
+export default function AddComment({ feedback, addComment, token }) {
   const [message, setMessage] = useState("");
   const [loader, setLoader] = useState(false);
+  const { user } = useContext(AuthContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (message.trim() === "") return;
+    if (!user) {
+      toast.error("You have to be logged in");
+      return;
+    }
 
     const config = {
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     };
-    const data = { message, feedback: feedback.id, user: 3 };
+    const data = { message, feedback: feedback.id };
 
     setLoader(true);
     await axios
@@ -35,14 +43,13 @@ export default function AddComment({ feedback, addComment }) {
           })
           .catch((err) => {
             setLoader(false);
-            console.log(err);
           });
         setLoader(false);
       })
       .catch((err) => {
         setLoader(false);
-        console.log(err);
       });
+    setMessage("");
   };
   return (
     <F.AddCommentWrapper>
@@ -52,10 +59,11 @@ export default function AddComment({ feedback, addComment }) {
         <TextArea
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          maxLength={250}
           placeholder="Type your comment here"
         />
         <W.SpaceOut>
-          <F.Text>250 Characters left</F.Text>
+          <F.Text>{250 - message.length} Characters left</F.Text>
           <B.Button type="submit" bg="purple">
             Post Comment
           </B.Button>

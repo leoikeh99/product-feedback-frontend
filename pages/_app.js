@@ -2,6 +2,7 @@ import "../styles/globals.css";
 import { ThemeProvider } from "styled-components";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { AuthProvider } from "../context/AuthContext";
 
 function MyApp({ Component, pageProps }) {
   const theme = {
@@ -12,10 +13,12 @@ function MyApp({ Component, pageProps }) {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <ToastContainer />
-      <Component {...pageProps} />
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider theme={theme}>
+        <ToastContainer />
+        <Component {...pageProps} />
+      </ThemeProvider>
+    </AuthProvider>
   );
 }
 
