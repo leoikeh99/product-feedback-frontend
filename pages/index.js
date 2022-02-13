@@ -6,13 +6,18 @@ import * as H from "../styles/HomeStyles";
 import * as W from "../styles/widgets";
 import { Button } from "../styles/widgets/Buttons";
 import Link from "next/link";
-import FeedbackItem from "../components/FeedbackItem";
+import FeedbackItem from "../components/feedback/FeedbackItem";
 import axios from "axios";
 import { getSortedData, parseCookies } from "../helpers";
+import { motion, AnimatePresence } from "framer-motion";
+import { feedbackItemAnim } from "../styles/framerAnimations";
+import NoResults from "../components/feedback/NoResults";
 
 export default function Home({ feedbacks }) {
   const [active, setActive] = useState("Most Upvotes");
   const [activeTag, setActiveTag] = useState("All");
+
+  React.useLayoutEffect = React.useEffect;
 
   useEffect(() => {
     const sortType = localStorage.getItem("sort");
@@ -47,9 +52,17 @@ export default function Home({ feedbacks }) {
             </Link>
           </H.Header>
           <H.Feedbacks>
-            {getSortedData(active, activeTag, feedbacks).map((feedback) => (
-              <FeedbackItem feedback={feedback} key={feedback.id} />
-            ))}
+            {getSortedData(active, activeTag, feedbacks).length !== 0 ? (
+              <AnimatePresence>
+                {getSortedData(active, activeTag, feedbacks).map((feedback) => (
+                  <motion.div key={feedback.id} {...feedbackItemAnim} layout>
+                    <FeedbackItem feedback={feedback} />
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            ) : (
+              <NoResults tag={activeTag} />
+            )}
           </H.Feedbacks>
         </H.Main>
       </H.HomeContainer>

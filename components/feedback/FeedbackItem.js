@@ -1,10 +1,10 @@
 import React, { useContext, useState } from "react";
-import * as F from "../styles/FeedbackItemStyles";
-import * as W from "../styles/widgets";
+import * as F from "../../styles/FeedbackItemStyles";
+import * as W from "../../styles/widgets";
 import axios from "axios";
 import Link from "next/link";
 import { toast } from "react-toastify";
-import AuthContext from "../context/AuthContext";
+import AuthContext from "../../context/AuthContext";
 
 export default function FeedbackItem({
   feedback: { attributes, id },
