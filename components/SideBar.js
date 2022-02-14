@@ -61,12 +61,11 @@ export default function SideBar({ activeTag, setActiveTag }) {
             <img src={user.avatar} alt="" />
             <div>
               <p>{user.username}</p>
-              <B.ButtonLink>Edit profile {">"}</B.ButtonLink>
+              <i className="fa-solid fa-power-off" onClick={() => logout()}>
+                {" "}
+                Logout
+              </i>
             </div>
-            <i className="fa-solid fa-power-off" onClick={() => logout()}>
-              {" "}
-              Logout
-            </i>
           </>
         ) : (
           <Link href="/auth/login">

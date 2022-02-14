@@ -9,12 +9,13 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(false);
+  const [loader, setLoader] = useState(false);
   const router = useRouter();
 
   useEffect(() => getUser(), []);
 
   const register = async (user) => {
-    console.log(user);
+    setLoader("register");
     await axios
       .post(`${NEXT_URL}/api/register`, user)
       .then((res) => {
@@ -27,9 +28,11 @@ export const AuthProvider = ({ children }) => {
         setError(err.response.data.message);
         setError(null);
       });
+    setLoader(false);
   };
 
   const login = async (user) => {
+    setLoader("login");
     await axios
       .post(`${NEXT_URL}/api/login`, user)
       .then((res) => {
@@ -42,6 +45,7 @@ export const AuthProvider = ({ children }) => {
         setError(err.response.data.message);
         setError(null);
       });
+    setLoader(false);
   };
 
   const getUser = async () => {
@@ -62,7 +66,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, error, register, login, logout }}>
+    <AuthContext.Provider
+      value={{ user, loader, error, register, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

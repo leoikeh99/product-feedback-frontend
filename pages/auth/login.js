@@ -5,10 +5,11 @@ import Layout from "../../components/Layout";
 import * as F from "../../styles/FeedbackFormStyles";
 import * as B from "../../styles/widgets/Buttons";
 import AuthContext from "../../context/AuthContext";
+import BtnLoader from "../../components/BtnLoader";
 
 export default function Login() {
   const [data, setData] = useState({ email: "", password: "" });
-  const { login } = useContext(AuthContext);
+  const { login, loader } = useContext(AuthContext);
 
   const handleChange = (e) =>
     setData({ ...data, [e.target.name]: e.target.value });
@@ -55,6 +56,7 @@ export default function Login() {
 
           <F.Buttons>
             <B.Button bg="purple" type="submit">
+              <BtnLoader loader={loader === "login"} />
               LOGIN
             </B.Button>
           </F.Buttons>

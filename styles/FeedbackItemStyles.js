@@ -17,6 +17,10 @@ export const Title = styled.p`
   font-size: 18px;
   margin-bottom: 4px;
   cursor: pointer;
+
+  &:hover {
+    color: #4661e6;
+  }
 `;
 
 export const Desc = styled.p`

@@ -5,13 +5,16 @@ import * as F from "../../styles/FeedbackFormStyles";
 import * as B from "../../styles/widgets/Buttons";
 import Link from "next/link";
 import SelectFeature from "../../components/dropdown/SelectFeature";
+import BtnLoader from "../../components/BtnLoader";
 import axios from "axios";
 import { toast } from "react-toastify";
 import AuthContext from "../../context/AuthContext";
+import { parseCookies } from "../../helpers";
 
-export default function AddFeedback() {
+export default function AddFeedback({ token, from }) {
   const [active, setActive] = useState("Feature");
   const [data, setData] = useState({ title: "", description: "" });
+  const [loader, setLoader] = useState(false);
   const { user } = useContext(AuthContext);
   const router = useRouter();
 
@@ -35,15 +38,17 @@ export default function AddFeedback() {
     const config = {
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     };
 
     const postData = {
       ...data,
       tag: active,
-      user: user.id,
       upvotes: [],
     };
+
+    setLoader(true);
 
     await axios
       .post("http://localhost:1337/api/feedbacks", { data: postData }, config)
@@ -52,12 +57,14 @@ export default function AddFeedback() {
         router.push(`/feedback/${res.data.data.id}`);
       })
       .catch((err) => console.log(err));
+
+    setLoader(false);
   };
 
   return (
     <Layout title="Create Feedback">
       <F.Container>
-        <Link href="/">
+        <Link href={`${from === "roadmap" ? "/roadmap" : "/"}`}>
           <B.Back>
             <img src="/assets/shared/icon-arrow-left.svg" alt="" />
             Go back
@@ -99,10 +106,23 @@ export default function AddFeedback() {
                 Cancel
               </B.Button>
             </Link>
-            <B.Button bg="purple">Add Feedback</B.Button>
+            <B.Button bg="purple">
+              <BtnLoader loader={loader} /> Add Feedback
+            </B.Button>
           </F.Buttons>
         </F.Form>
       </F.Container>
     </Layout>
   );
+}
+
+export async function getServerSideProps({ req, query: { from } }) {
+  const { token } = parseCookies(req);
+
+  return {
+    props: {
+      token: token ? token : null,
+      from: from ? from : null,
+    },
+  };
 }

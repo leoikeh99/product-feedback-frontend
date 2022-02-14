@@ -4,14 +4,14 @@ import Layout from "../../components/Layout";
 import * as F from "../../styles/FeedbackDetailStyles";
 import * as W from "../../styles/widgets";
 import * as B from "../../styles/widgets/Buttons";
-import FeedbackItem from "../../components/FeedbackItem";
+import FeedbackItem from "../../components/feedback/FeedbackItem";
 import Comment from "../../components/comment/Comment";
 import AddComment from "../../components/comment/AddComment";
 import AuthContext from "../../context/AuthContext";
 import axios from "axios";
 import { parseCookies } from "../../helpers";
 
-export default function FeedbackDetail({ feedback, cmts, rpls, token }) {
+export default function FeedbackDetail({ feedback, cmts, rpls, token, from }) {
   const [comments, setComments] = useState(cmts);
   const [replies, setReplies] = useState(rpls);
   const { user } = useContext(AuthContext);
@@ -23,7 +23,7 @@ export default function FeedbackDetail({ feedback, cmts, rpls, token }) {
     <Layout title="Feedback Detail">
       <F.Container>
         <W.SpaceOut>
-          <Link href="/">
+          <Link href={`${from === "roadmap" ? "/roadmap" : "/"}`}>
             <B.Back>
               <img src="/assets/shared/icon-arrow-left.svg" alt="" />
               Go back
@@ -39,6 +39,7 @@ export default function FeedbackDetail({ feedback, cmts, rpls, token }) {
         <FeedbackItem
           feedback={feedback}
           updatedNum={comments.length + replies.length}
+          token={token}
         />
         <F.CommentWrapper>
           <F.Header>{comments.length + replies.length} Comments</F.Header>
@@ -60,7 +61,11 @@ export default function FeedbackDetail({ feedback, cmts, rpls, token }) {
   );
 }
 
-export async function getServerSideProps({ req, params: { id } }) {
+export async function getServerSideProps({
+  req,
+  params: { id },
+  query: { from },
+}) {
   const res = await axios.get(
     `http://localhost:1337/api/feedbacks/${id}/?populate=*`
   );
@@ -81,6 +86,7 @@ export async function getServerSideProps({ req, params: { id } }) {
       cmts: res2.data.data,
       rpls: res3.data.data,
       token: token ? token : null,
+      from: from ? from : null,
     },
   };
 }

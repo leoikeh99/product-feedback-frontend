@@ -13,6 +13,7 @@ export default function SelectFeature({ active, setActive }) {
         <DropDown>
           {features.map((feature) => (
             <Item
+              key={feature}
               onClick={() => setActive(feature)}
               active={feature === active}>
               {feature}{" "}

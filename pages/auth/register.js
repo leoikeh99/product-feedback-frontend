@@ -6,10 +6,11 @@ import * as B from "../../styles/widgets/Buttons";
 import { toast } from "react-toastify";
 import emailValidator from "email-validator";
 import AuthContext from "../../context/AuthContext";
+import BtnLoader from "../../components/BtnLoader";
 
 export default function Register() {
   const [data, setData] = useState({ email: "", username: "", password: "" });
-  const { register } = useContext(AuthContext);
+  const { register, loader } = useContext(AuthContext);
 
   const handleChange = (e) =>
     setData({ ...data, [e.target.name]: e.target.value });
@@ -71,6 +72,7 @@ export default function Register() {
 
           <F.Buttons>
             <B.Button bg="purple" type="submit">
+              <BtnLoader loader={loader === "register"} />
               SIGN UP
             </B.Button>
           </F.Buttons>

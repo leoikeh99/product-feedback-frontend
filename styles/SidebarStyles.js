@@ -85,10 +85,9 @@ export const ProfileCard = styled.div`
   p {
     color: #3a4374;
     font-weight: 700;
+    font-size:18px;
   }
 
-  i {
-    position: absolute;
     top: 10px;
     right: 10px;
     font-size: 10px;

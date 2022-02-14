@@ -13,13 +13,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { feedbackItemAnim } from "../styles/framerAnimations";
 import NoResults from "../components/feedback/NoResults";
 
-export default function Home({ feedbacks }) {
+export default function Home({ feedbacks, token }) {
   const [active, setActive] = useState("Most Upvotes");
   const [activeTag, setActiveTag] = useState("All");
-
-  React.useLayoutEffect = React.useEffect;
+  const [winReady, setWinReady] = useState(false);
 
   useEffect(() => {
+    setWinReady(true);
     const sortType = localStorage.getItem("sort");
     setActive(sortType ? sortType : "Most Upvotes");
   }, []);
@@ -51,19 +51,26 @@ export default function Home({ feedbacks }) {
               <Button bg="purple">+ Add Feedback</Button>
             </Link>
           </H.Header>
-          <H.Feedbacks>
-            {getSortedData(active, activeTag, feedbacks).length !== 0 ? (
-              <AnimatePresence>
-                {getSortedData(active, activeTag, feedbacks).map((feedback) => (
-                  <motion.div key={feedback.id} {...feedbackItemAnim} layout>
-                    <FeedbackItem feedback={feedback} />
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            ) : (
-              <NoResults tag={activeTag} />
-            )}
-          </H.Feedbacks>
+          {winReady && (
+            <H.Feedbacks>
+              {getSortedData(active, activeTag, feedbacks).length !== 0 ? (
+                <AnimatePresence>
+                  {getSortedData(active, activeTag, feedbacks).map(
+                    (feedback) => (
+                      <motion.div
+                        key={feedback.id}
+                        {...feedbackItemAnim}
+                        layout>
+                        <FeedbackItem feedback={feedback} token={token} />
+                      </motion.div>
+                    )
+                  )}
+                </AnimatePresence>
+              ) : (
+                <NoResults tag={activeTag} />
+              )}
+            </H.Feedbacks>
+          )}
         </H.Main>
       </H.HomeContainer>
     </Layout>
@@ -72,14 +79,15 @@ export default function Home({ feedbacks }) {
 
 export async function getServerSideProps({ req }) {
   const res = await axios.get(
-    "http://localhost:1337/api/feedbacks/?populate=*"
+    "http://localhost:1337/api/feedbacks/?populate=*&filters[roadmap][$eq]=false"
   );
 
-  console.log(parseCookies(req));
+  const { token } = parseCookies(req);
 
   return {
     props: {
       feedbacks: res.data.data,
+      token: token ? token : null,
     },
   };
 }

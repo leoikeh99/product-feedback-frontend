@@ -9,6 +9,7 @@ import AuthContext from "../../context/AuthContext";
 export default function FeedbackItem({
   feedback: { attributes, id },
   updatedNum,
+  token,
 }) {
   const [upvotes, setUpvotes] = useState(attributes.upvotes);
   const { user } = useContext(AuthContext);
@@ -22,6 +23,7 @@ export default function FeedbackItem({
     const config = {
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     };
 

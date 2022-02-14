@@ -40,6 +40,11 @@ export default function EditFeedback({ feedback: { attributes, id }, token }) {
       return;
     }
 
+    if (user.id !== attributes.user.data.id) {
+      toast.error("You cannot update this entry");
+      return;
+    }
+
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -75,6 +80,16 @@ export default function EditFeedback({ feedback: { attributes, id }, token }) {
       },
     };
 
+    if (!user) {
+      toast.error("You have to be logged in");
+      return;
+    }
+
+    if (user.id !== attributes.user.data.id) {
+      toast.error("You cannot delete this entry");
+      return;
+    }
+
     setLoader("delete");
 
     await axios
@@ -91,7 +106,7 @@ export default function EditFeedback({ feedback: { attributes, id }, token }) {
   return (
     <Layout title="Edit Feedback">
       <F.Container>
-        <Link href="/">
+        <Link href={`/feedback/${id}`}>
           <B.Back>
             <img src="/assets/shared/icon-arrow-left.svg" alt="" />
             Go back

@@ -34,7 +34,7 @@ export const Back = styled.a`
   display: flex;
   align-items: center;
   gap: 10px;
-  color: #647196;
+  color: ${({ light }) => (light ? "#fff" : "#647196")};
   font-weight: 700;
   font-size: 14px;
   cursor: pointer;
