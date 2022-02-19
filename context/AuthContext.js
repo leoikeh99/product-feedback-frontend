@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
         setUser(res.data.user);
       })
       .catch((err) => {
-        toast.success(err.response.data.message);
+        toast.error(err.response.data.message);
         setError(err.response.data.message);
         setError(null);
       });
@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
         setUser(res.data.user);
       })
       .catch((err) => {
-        toast.success(err.response.data.message);
+        toast.error(err.response.data.message);
         setError(err.response.data.message);
         setError(null);
       });

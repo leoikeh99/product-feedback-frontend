@@ -32,4 +32,12 @@ const LayoutContainer = styled.div`
   max-width: 1150px;
   margin: auto;
   padding: 94px 20px 50px 20px;
+
+  @media only screen and (max-width: 1070px) {
+    padding-top: 56px;
+  }
+
+  @media only screen and (max-width: 500px) {
+    padding-top: 34px;
+  }
 `;

@@ -12,8 +12,9 @@ import { getSortedData, parseCookies } from "../helpers";
 import { motion, AnimatePresence } from "framer-motion";
 import { feedbackItemAnim } from "../styles/framerAnimations";
 import NoResults from "../components/feedback/NoResults";
+import TopBar from "../components/TopBar";
 
-export default function Home({ feedbacks, token }) {
+export default function Home({ feedbacks, token, sidebarData }) {
   const [active, setActive] = useState("Most Upvotes");
   const [activeTag, setActiveTag] = useState("All");
   const [winReady, setWinReady] = useState(false);
@@ -27,16 +28,22 @@ export default function Home({ feedbacks, token }) {
   return (
     <Layout>
       <H.HomeContainer>
-        <SideBar activeTag={activeTag} setActiveTag={setActiveTag} />
+        <TopBar />
+        <SideBar
+          activeTag={activeTag}
+          setActiveTag={setActiveTag}
+          data={sidebarData}
+        />
         <H.Main>
           <H.Header>
             <W.Flex gap={38}>
               <W.Flex gap={16}>
                 <img
+                  className="suggestions"
                   src="/assets/suggestions/icon-suggestions.svg"
                   alt="icon"
                 />
-                <p>
+                <p className="suggestions">
                   {activeTag === "All"
                     ? feedbacks.length
                     : feedbacks.filter(
@@ -82,12 +89,28 @@ export async function getServerSideProps({ req }) {
     "http://localhost:1337/api/feedbacks/?populate=*&filters[roadmap][$eq]=false"
   );
 
+  const res2 = await axios.get(
+    "http://localhost:1337/api/feedbacks/?populate=*&filters[roadmap][$eq]=true"
+  );
+
+  const data = res2.data.data;
+
+  const sidebarData = {
+    planned: data.filter(({ attributes }) => attributes.status === "Planned")
+      .length,
+    inProgress: data.filter(
+      ({ attributes }) => attributes.status === "In Progress"
+    ).length,
+    live: data.filter(({ attributes }) => attributes.status === "Live").length,
+  };
+
   const { token } = parseCookies(req);
 
   return {
     props: {
       feedbacks: res.data.data,
       token: token ? token : null,
+      sidebarData: sidebarData,
     },
   };
 }

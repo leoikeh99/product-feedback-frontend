@@ -50,33 +50,63 @@ export default function FeedbackItem({
   };
   return (
     <F.Cover>
-      <W.Flex gap={40}>
-        <W.UpvoteTag
-          onClick={() => upvote()}
-          active={user && upvotes && upvotes.some((val) => val === user.id)}>
-          {user && upvotes && upvotes.some((val) => val === user.id) ? (
-            <img src="/assets/shared/icon-arrow-up-light.svg" alt="" />
-          ) : (
-            <img src="/assets/shared/icon-arrow-up.svg" alt="" />
-          )}
-          {upvotes ? upvotes.length : 0}
-        </W.UpvoteTag>
-        <div>
-          <Link href={`/feedback/${id}`}>
-            <F.Title>{attributes.title}</F.Title>
-          </Link>
-          <F.Desc>{attributes.description}</F.Desc>
-          <W.Tag>{attributes.tag}</W.Tag>
-        </div>
-      </W.Flex>
-      <F.RightSide>
-        <img src="/assets/shared/icon-comments.svg" alt="" />
-        {updatedNum
-          ? updatedNum
-          : attributes.comments.data
-          ? attributes.comments.data.length + attributes.replies.data.length
-          : 0}
-      </F.RightSide>
+      <F.Desk>
+        <W.Flex gap={40}>
+          <W.UpvoteTag
+            onClick={() => upvote()}
+            active={user && upvotes && upvotes.some((val) => val === user.id)}>
+            {user && upvotes && upvotes.some((val) => val === user.id) ? (
+              <img src="/assets/shared/icon-arrow-up-light.svg" alt="" />
+            ) : (
+              <img src="/assets/shared/icon-arrow-up.svg" alt="" />
+            )}
+            {upvotes ? upvotes.length : 0}
+          </W.UpvoteTag>
+          <div>
+            <Link href={`/feedback/${id}`}>
+              <F.Title>{attributes.title}</F.Title>
+            </Link>
+            <F.Desc>{attributes.description}</F.Desc>
+            <W.Tag>{attributes.tag}</W.Tag>
+          </div>
+        </W.Flex>
+        <F.RightSide>
+          <img src="/assets/shared/icon-comments.svg" alt="" />
+          {updatedNum
+            ? updatedNum
+            : attributes.comments.data
+            ? attributes.comments.data.length + attributes.replies.data.length
+            : 0}
+        </F.RightSide>
+      </F.Desk>
+      <F.Mob>
+        <Link href={`/feedback/${id}`}>
+          <F.Title>{attributes.title}</F.Title>
+        </Link>
+        <F.Desc>{attributes.description}</F.Desc>
+        <W.Tag>{attributes.tag}</W.Tag>
+        <W.Margin m={16} />
+        <W.SpaceOut>
+          <F.UpvoteTag2
+            onClick={() => upvote()}
+            status={user && upvotes && upvotes.some((val) => val === user.id)}>
+            {user && upvotes && upvotes.some((val) => val === user.id) ? (
+              <img src="/assets/shared/icon-arrow-up-light.svg" alt="" />
+            ) : (
+              <img src="/assets/shared/icon-arrow-up.svg" alt="" />
+            )}
+            {upvotes ? upvotes.length : 0}
+          </F.UpvoteTag2>
+          <F.RightSide>
+            <img src="/assets/shared/icon-comments.svg" alt="" />
+            {updatedNum
+              ? updatedNum
+              : attributes.comments.data
+              ? attributes.comments.data.length + attributes.replies.data.length
+              : 0}
+          </F.RightSide>
+        </W.SpaceOut>
+      </F.Mob>
     </F.Cover>
   );
 }

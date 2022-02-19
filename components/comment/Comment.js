@@ -21,7 +21,7 @@ export default function Comment({
   return (
     <F.Comment reply={replies.length !== 0}>
       <W.SpaceOut>
-        <W.Flex gap={32}>
+        <F.TopSection>
           <F.Avatar
             src={attributes.user.data.attributes.avatar}
             height={40}
@@ -32,7 +32,7 @@ export default function Comment({
             <F.Name>{attributes.user.data.attributes.username}</F.Name>
             <F.Text sm>@{attributes.user.data.attributes.username}</F.Text>
           </div>
-        </W.Flex>
+        </F.TopSection>
         <B.ButtonLink onClick={() => setShowAdd(!showAdd)}>
           {!showAdd ? "Reply" : "Cancel"}
         </B.ButtonLink>

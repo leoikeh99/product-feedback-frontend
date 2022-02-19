@@ -48,6 +48,10 @@ const Header = styled.h2`
   color: #3a4374;
   margin-bottom: 16px;
   text-align: center;
+
+  @media only screen and (max-width: 500px) {
+    dfont-size: 18px;
+  }
 `;
 const Text = styled.p`
   font-weight: 400;
@@ -56,4 +60,9 @@ const Text = styled.p`
   margin-bottom: 48px;
   max-width: 410px;
   text-align: center;
+
+  @media only screen and (max-width: 500px) {
+    font-size: 13px;
+    max-width: 275px;
+  }
 `;

@@ -11,6 +11,10 @@ export const CommentWrapper = styled.div`
   border-radius: 10px;
   padding: 24px 32px;
   margin-bottom: 24px;
+
+  @media only screen and (max-width: 500px) {
+    padding: 24px 24px;
+  }
 `;
 
 export const Header = styled.h3`
@@ -70,7 +74,25 @@ export const Reply = styled.div`
       left: -25px;
       background: #fff;
       z-index: 2;
+
+      @media only screen and (max-width: 500px) {
+        left: -15px;
+      }
     }
+  }
+
+  @media only screen and (max-width: 500px) {
+    margin-left: 35px;
+  }
+`;
+
+export const TopSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 32px;
+
+  @media only screen and (max-width: 500px) {
+    gap: 16px;
   }
 `;
 
@@ -85,17 +107,33 @@ export const Text = styled.p`
   font-size: ${({ sm }) => (sm ? "14px" : "15px")};
   font-weight: 400;
   color: #647196;
+
+  @media only screen and (max-width: 500px) {
+    font-size: 13px;
+  }
 `;
 
 export const Name = styled.p`
   ont-size: 14px;
   font-weight: 700;
   color: #3a4374;
+
+  @media only screen and (max-width: 500px) {
+    font-size: 13px;
+  }
 `;
 
 export const Desc = styled.div`
   margin-left: 72px;
-  margin-top: 17px;
+  padding-top: 17px;
+  background: #fff;
+  z-index: 5;
+  position: relative;
+
+  @media only screen and (max-width: 500px) {
+    margin-left: 0;
+    padding-bottom: 12px;
+  }
 `;
 
 export const AddCommentWrapper = styled.div`
@@ -104,4 +142,8 @@ export const AddCommentWrapper = styled.div`
   background: #fff;
   border-radius: 10px;
   position: relative;
+
+  @media only screen and (max-width: 400px) {
+    padding: 24px;
+  }
 `;

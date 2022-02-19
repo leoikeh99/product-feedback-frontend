@@ -10,10 +10,12 @@ import { parseCookies } from "../helpers";
 import AuthContext from "../context/AuthContext";
 import axios from "axios";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import TabNav from "../components/roadmap/TabNav";
 
 export default function Roadmap({ fdbks, token }) {
   const [feedbacks, setFeedbacks] = useState(fdbks);
   const [winReady, setwinReady] = useState(false);
+  const [tab, setTab] = useState("Planned");
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
@@ -21,7 +23,6 @@ export default function Roadmap({ fdbks, token }) {
   }, []);
 
   const updateStatus = async (feedback, newStatus) => {
-    console.log(feedback);
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -39,10 +40,8 @@ export default function Roadmap({ fdbks, token }) {
         { data },
         config
       )
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => console.error(err));
+      .then((res) => {})
+      .catch((err) => {});
   };
 
   const onDragEnd = (result) => {
@@ -71,12 +70,13 @@ export default function Roadmap({ fdbks, token }) {
   return (
     <Layout title="Roadmap">
       <Header />
+      <TabNav tab={tab} setTab={setTab} />
       {winReady && (
         <R.MainLayout>
           <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="Planned">
               {(provided) => (
-                <R.Section>
+                <R.Section show={tab === "Planned"}>
                   <R.Text1>
                     Planned (
                     {
@@ -114,7 +114,7 @@ export default function Roadmap({ fdbks, token }) {
 
             <Droppable droppableId="In Progress">
               {(provided) => (
-                <R.Section>
+                <R.Section show={tab === "In Progress"}>
                   <R.Text1>
                     In-Progress (
                     {
@@ -151,7 +151,7 @@ export default function Roadmap({ fdbks, token }) {
 
             <Droppable droppableId="Live">
               {(provided) => (
-                <R.Section>
+                <R.Section show={tab === "Live"}>
                   <R.Text1>
                     Live (
                     {

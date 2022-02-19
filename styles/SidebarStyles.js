@@ -6,6 +6,33 @@ export const Container = styled.div`
   width: 100%;
   position: sticky;
   top: 24px;
+  transition: 0.2s ease-in all;
+
+  @media only screen and (max-width: 1070px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 10px;
+    max-width: 100%;
+    position: relative;
+    top: 0;
+  }
+
+  @media only screen and (max-width: 700px) {
+    position: fixed;
+    top: 0;
+    right: 0;
+    display: block;
+    background: #f7f8fd;
+    height: 100vh;
+    z-index: 15;
+    padding: 100px 24px 0 24px;
+    width: 271px;
+    transform: translateX(300px);
+  }
+
+  &.comeIn {
+    transform: translateX(0px);
+  }
 `;
 
 export const TopCard = styled.div`
@@ -29,6 +56,16 @@ export const TopCard = styled.div`
   .main-text {
     font-size: 20px;
     font-weight: 700;
+  }
+
+  @media only screen and (max-width: 1070px) {
+    margin-bottom: 10px;
+    height: 100px;
+    padding: 12px;
+  }
+
+  @media only screen and (max-width: 700px) {
+    display: none;
   }
 `;
 
@@ -74,6 +111,7 @@ export const ProfileCard = styled.div`
   align-items: center;
   gap: 10px;
   position: relative;
+  display: ${({ small }) => (small ? "none" : "flex")};
 
   img {
     height: 45px;
@@ -85,14 +123,23 @@ export const ProfileCard = styled.div`
   p {
     color: #3a4374;
     font-weight: 700;
-    font-size:18px;
+    font-size: 18px;
   }
-
+  i {
     top: 10px;
     right: 10px;
     font-size: 10px;
     color: ${({ theme }) => theme.red.normal};
     cursor: pointer;
+  }
+
+  @media only screen and (max-width: 1070px) {
+    display: ${({ small }) => (!small ? "none" : "flex")};
+    padding: 10px;
+  }
+
+  @media only screen and (max-width: 700px) {
+    display: ${({ small }) => (!small ? "flex" : "none")};
   }
 `;
 

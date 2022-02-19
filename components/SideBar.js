@@ -5,16 +5,37 @@ import * as B from "../styles/widgets/Buttons";
 import Link from "next/link";
 import AuthContext from "../context/AuthContext";
 
-export default function SideBar({ activeTag, setActiveTag }) {
+export default function SideBar({ activeTag, setActiveTag, data }) {
   const tags = ["All", "UI", "UX", "Enhancement", "Bug", "Feature"];
   const { user, logout } = useContext(AuthContext);
 
   return (
-    <S.Container>
-      <S.TopCard>
-        <p className="main-text">Frontend Mentor</p>
-        <p>Feedback Board</p>
-      </S.TopCard>
+    <S.Container id="sidebar">
+      <div>
+        <S.TopCard>
+          <p className="main-text">Frontend Mentor</p>
+          <p>Feedback Board</p>
+        </S.TopCard>
+
+        <S.ProfileCard small>
+          {user ? (
+            <>
+              <img src={user.avatar} alt="" />
+              <div>
+                <p>{user.username}</p>
+                <i className="fa-solid fa-power-off" onClick={() => logout()}>
+                  {" "}
+                  Logout
+                </i>
+              </div>
+            </>
+          ) : (
+            <Link href="/auth/login">
+              <B.ButtonLink>Login {">"}</B.ButtonLink>
+            </Link>
+          )}
+        </S.ProfileCard>
+      </div>
       <S.Card>
         <S.Tags>
           {tags.map((tag) => (
@@ -39,19 +60,19 @@ export default function SideBar({ activeTag, setActiveTag }) {
             <W.Flex gap={16}>
               <S.Dot bg="#F49F85" /> <p className="text">Planned</p>
             </W.Flex>
-            <p className="text-bold">2</p>
+            <p className="text-bold">{data.planned}</p>
           </li>
           <li>
             <W.Flex gap={16}>
               <S.Dot bg="#AD1FEA" /> <p className="text">In-Progress</p>
             </W.Flex>
-            <p className="text-bold">3</p>
+            <p className="text-bold">{data.inProgress}</p>
           </li>
           <li>
             <W.Flex gap={16}>
               <S.Dot bg="#62BCFA" /> <p className="text">Live</p>
             </W.Flex>
-            <p className="text-bold">1</p>
+            <p className="text-bold">{data.live}</p>
           </li>
         </ul>
       </S.Card>

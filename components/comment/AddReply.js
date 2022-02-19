@@ -79,9 +79,18 @@ export default function AddReply({
 const ReplyCover = styled.div`
   display: flex;
   gap: 16px;
-  margin-top: 20px;
+  padding-top: 20px;
   margin-left: 70px;
   animation: ${getIn} ease-in 0.2s forwards;
+  position: relative;
+  z-index: 5;
+  background: #fff;
+
+  @media only screen and (max-width: 500px) {
+    display: block;
+    margin-left: 0;
+    padding-bottom: 3px;
+  }
 `;
 
 const TextArea = styled.textarea`
@@ -105,5 +114,9 @@ const TextArea = styled.textarea`
   ::-webkit-input-placeholder {
     font-family: "Jost", sans-serif;
     color: #8c92b3;
+  }
+
+  @media only screen and (max-width: 500px) {
+    margin-bottom: 10px;
   }
 `;

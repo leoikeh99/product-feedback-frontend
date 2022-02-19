@@ -141,22 +141,22 @@ export default function EditFeedback({ feedback: { attributes, id }, token }) {
             value={data.description}
             onChange={handleChange}
           />
-          <SpaceOut>
+          <F.Buttons2>
             <B.Button bg="red" type="button" onClick={deleteFeedback}>
               <BtnLoader loader={loader === "delete"} />
               Delete
             </B.Button>
-            <F.Buttons>
+            <F.Buttons className="buttons">
               <Link href="/">
                 <B.Button bg="darkBlue" type="button">
                   Cancel
                 </B.Button>
               </Link>
               <B.Button bg="purple">
-                <BtnLoader loader={loader === "edit"} /> Edit Feedback
+                <BtnLoader loader={loader === "edit"} /> Save Changes
               </B.Button>
             </F.Buttons>
-          </SpaceOut>
+          </F.Buttons2>
         </F.Form>
       </F.Container>
     </Layout>

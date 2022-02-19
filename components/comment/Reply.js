@@ -15,7 +15,7 @@ export default function Reply({ reply: { attributes }, addReply, token }) {
   return (
     <F.Reply>
       <W.SpaceOut>
-        <W.Flex gap={32}>
+        <F.TopSection gap={32}>
           <F.Avatar
             src={attributes.user.data.attributes.avatar}
             height={40}
@@ -26,8 +26,10 @@ export default function Reply({ reply: { attributes }, addReply, token }) {
             <F.Name>{attributes.user.data.attributes.username}</F.Name>
             <F.Text sm>@{attributes.user.data.attributes.username}</F.Text>
           </div>
-        </W.Flex>
-        <B.ButtonLink onClick={() => setShowAdd(!showAdd)}>Reply</B.ButtonLink>
+        </F.TopSection>
+        <B.ButtonLink onClick={() => setShowAdd(!showAdd)}>
+          {!showAdd ? "Reply" : "Cancel"}
+        </B.ButtonLink>
       </W.SpaceOut>
       <F.Desc>
         <F.Text>

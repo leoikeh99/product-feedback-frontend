@@ -65,6 +65,14 @@ const Label = styled.p`
       color: #f2f4fe;
     }
   }
+
+  @media only screen and (max-width: 650px) {
+    margin-left: -32px;
+  }
+
+  @media only screen and (max-width: 400px) {
+    font-size: 13px;
+  }
 `;
 
 const DropDown = styled.ul`

@@ -13,6 +13,14 @@ export const Icon = styled.span`
     height: 56px;
     width: 56px;
   }
+
+  @media only screen and (max-width: 500px) {
+    margin-top: -45px;
+    img {
+      height: 40px;
+      width: 40px;
+    }
+  }
 `;
 
 export const Form = styled.form`
@@ -21,6 +29,10 @@ export const Form = styled.form`
   padding: 40px;
   border-radius: 10px;
   margin-top: 68px;
+
+  @media only screen and (max-width: 500px) {
+    padding: 24px;
+  }
 `;
 
 export const Title = styled.h2`
@@ -28,6 +40,10 @@ export const Title = styled.h2`
   font-weight: 700;
   color: #3a4374;
   margin: 12px 0 40px 0px;
+
+  @media only screen and (max-width: 500px) {
+    font-size: 18px;
+  }
 `;
 export const Label = styled.label`
   display: block;
@@ -35,6 +51,10 @@ export const Label = styled.label`
   font-size: 14px;
   font-weight: ${({ light }) => (light ? "400" : "700")};
   margin-bottom: 2px;
+
+  @media only screen and (max-width: 500px) {
+    font-size: 13px;
+  }
 `;
 
 export const Input = styled.input`
@@ -60,6 +80,10 @@ export const Textarea = styled.textarea`
   padding: 10px;
   margin: 16px 0 24px 0;
   resize: none;
+
+  @media only screen and (max-width: 500px) {
+    height: 120px;
+  }
 `;
 
 export const Buttons = styled.div`
@@ -68,4 +92,28 @@ export const Buttons = styled.div`
   justify-content: flex-end;
   gap: 16px;
   margin-top: 8px;
+
+  @media only screen and (max-width: 500px) {
+    flex-direction: column-reverse;
+
+    button {
+      width: 100%;
+    }
+  }
+`;
+
+export const Buttons2 = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  @media only screen and (max-width: 500px) {
+    flex-direction: column-reverse;
+    gap: 16px;
+
+    button,
+    .buttons {
+      width: 100%;
+    }
+  }
 `;

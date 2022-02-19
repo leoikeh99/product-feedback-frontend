@@ -17,6 +17,23 @@ export const HeaderCover = styled.div`
     font-weight: 700;
     color: #fff;
     margin-top: 4px;
+
+    @media only screen and (max-width: 400px) {
+      font-size: 18px;
+    }
+  }
+
+  @media only screen and (max-width: 400px) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-radius: 0;
+    padding: 26px 24px;
+  }
+
+  @media only screen and (max-width: 850px) {
+    margin-bottom: 0;
   }
 `;
 
@@ -41,9 +58,22 @@ export const MainLayout = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 30px;
+
+  @media only screen and (max-width: 400px) {
+    margin-top: 160px;
+  }
+
+  @media only screen and (max-width: 850px) {
+    display: flex;
+    justify-content: center;
+  }
 `;
 
-export const Section = styled.div``;
+export const Section = styled.div`
+  @media only screen and (max-width: 850px) {
+    display: ${({ show }) => (show ? "block" : "none")};
+  }
+`;
 
 export const CardsCover = styled.div`
   display: grid;
@@ -67,6 +97,10 @@ export const CardCover = styled.div`
   padding: 27px 32px;
   animation: 0.3s ease-in ${getIn};
   cursor: pointer;
+
+  @media only screen and (max-width: 850px) {
+    max-width: 100%;
+  }
 `;
 
 export const Dot = styled.span`
