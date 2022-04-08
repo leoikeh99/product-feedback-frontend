@@ -24,7 +24,7 @@ export const Container = styled.div`
     display: block;
     background: #f7f8fd;
     height: 100vh;
-    z-index: 15;
+    z-index: 19;
     padding: 100px 24px 0 24px;
     width: 271px;
     transform: translateX(300px);

@@ -10,6 +10,7 @@ import AddComment from "../../components/comment/AddComment";
 import AuthContext from "../../context/AuthContext";
 import axios from "axios";
 import { parseCookies } from "../../helpers";
+import { BASE_URL } from "../../config";
 
 export default function FeedbackDetail({ feedback, cmts, rpls, token, from }) {
   const [comments, setComments] = useState(cmts);
@@ -41,20 +42,22 @@ export default function FeedbackDetail({ feedback, cmts, rpls, token, from }) {
           updatedNum={comments.length + replies.length}
           token={token}
         />
-        <F.CommentWrapper>
-          <F.Header>{comments.length + replies.length} Comments</F.Header>
-          {comments.map((comment) => (
-            <Comment
-              key={comment.id}
-              comment={comment}
-              token={token}
-              replies={replies.filter(
-                (val) => val.attributes.comment.data.id === comment.id
-              )}
-              addReply={addReply}
-            />
-          ))}
-        </F.CommentWrapper>
+        {comments.length !== 0 && (
+          <F.CommentWrapper>
+            <F.Header>{comments.length + replies.length} Comments</F.Header>
+            {comments.map((comment) => (
+              <Comment
+                key={comment.id}
+                comment={comment}
+                token={token}
+                replies={replies.filter(
+                  (val) => val.attributes.comment.data.id === comment.id
+                )}
+                addReply={addReply}
+              />
+            ))}
+          </F.CommentWrapper>
+        )}
         <AddComment feedback={feedback} addComment={addComment} token={token} />
       </F.Container>
     </Layout>
@@ -66,16 +69,14 @@ export async function getServerSideProps({
   params: { id },
   query: { from },
 }) {
-  const res = await axios.get(
-    `http://localhost:1337/api/feedbacks/${id}/?populate=*`
-  );
+  const res = await axios.get(`${BASE_URL}/api/feedbacks/${id}/?populate=*`);
 
   const res2 = await axios.get(
-    `http://localhost:1337/api/comments/?populate=*&filters[feedback][id][$eq]=${id}`
+    `${BASE_URL}/api/comments/?populate=*&filters[feedback][id][$eq]=${id}`
   );
 
   const res3 = await axios.get(
-    `http://localhost:1337/api/replies/?populate=*&filters[feedback][id][$eq]=${id}`
+    `${BASE_URL}/api/replies/?populate=*&filters[feedback][id][$eq]=${id}`
   );
 
   const { token } = parseCookies(req);

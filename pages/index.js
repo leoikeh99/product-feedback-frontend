@@ -13,6 +13,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { feedbackItemAnim } from "../styles/framerAnimations";
 import NoResults from "../components/feedback/NoResults";
 import TopBar from "../components/TopBar";
+import { BASE_URL } from "../config";
 
 export default function Home({ feedbacks, token, sidebarData }) {
   const [active, setActive] = useState("Most Upvotes");
@@ -86,11 +87,11 @@ export default function Home({ feedbacks, token, sidebarData }) {
 
 export async function getServerSideProps({ req }) {
   const res = await axios.get(
-    "http://localhost:1337/api/feedbacks/?populate=*&filters[roadmap][$eq]=false"
+    `${BASE_URL}/api/feedbacks/?populate=*&filters[roadmap][$eq]=false`
   );
 
   const res2 = await axios.get(
-    "http://localhost:1337/api/feedbacks/?populate=*&filters[roadmap][$eq]=true"
+    `${BASE_URL}/api/feedbacks/?populate=*&filters[roadmap][$eq]=true`
   );
 
   const data = res2.data.data;

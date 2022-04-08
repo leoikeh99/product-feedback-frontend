@@ -10,6 +10,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import AuthContext from "../../context/AuthContext";
 import { parseCookies } from "../../helpers";
+import { BASE_URL } from "../../config";
 
 export default function AddFeedback({ token, from }) {
   const [active, setActive] = useState("Feature");
@@ -51,7 +52,7 @@ export default function AddFeedback({ token, from }) {
     setLoader(true);
 
     await axios
-      .post("http://localhost:1337/api/feedbacks", { data: postData }, config)
+      .post(`${BASE_URL}/api/feedbacks`, { data: postData }, config)
       .then((res) => {
         toast.success("Feedback created");
         router.push(`/feedback/${res.data.data.id}`);

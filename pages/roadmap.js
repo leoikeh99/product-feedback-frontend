@@ -11,6 +11,7 @@ import AuthContext from "../context/AuthContext";
 import axios from "axios";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import TabNav from "../components/roadmap/TabNav";
+import { BASE_URL } from "../config";
 
 export default function Roadmap({ fdbks, token }) {
   const [feedbacks, setFeedbacks] = useState(fdbks);
@@ -35,11 +36,7 @@ export default function Roadmap({ fdbks, token }) {
     };
 
     await axios
-      .put(
-        `http://localhost:1337/api/feedbacks/${feedback.id}`,
-        { data },
-        config
-      )
+      .put(`${BASE_URL}/api/feedbacks/${feedback.id}`, { data }, config)
       .then((res) => {})
       .catch((err) => {});
   };
@@ -195,7 +192,7 @@ export default function Roadmap({ fdbks, token }) {
 
 export async function getServerSideProps({ req }) {
   const res = await axios.get(
-    "http://localhost:1337/api/feedbacks/?populate=*&filters[roadmap][$eq]=true"
+    `${BASE_URL}/api/feedbacks/?populate=*&filters[roadmap][$eq]=true`
   );
 
   const { token } = parseCookies(req);

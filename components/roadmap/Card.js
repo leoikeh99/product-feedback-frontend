@@ -5,6 +5,7 @@ import * as W from "../../styles/widgets";
 import { Draggable } from "react-beautiful-dnd";
 import AuthContext from "../../context/AuthContext";
 import axios from "axios";
+import { BASE_URL } from "../../config";
 
 export default function Card({ feedback: { attributes, id }, index, token }) {
   const [upvotes, setUpvotes] = useState(attributes.upvotes);
@@ -38,7 +39,7 @@ export default function Card({ feedback: { attributes, id }, index, token }) {
     };
 
     await axios
-      .put(`http://localhost:1337/api/feedbacks/${id}`, { data }, config)
+      .put(`${BASE_URL}/api/feedbacks/${id}`, { data }, config)
       .then((res) => {
         console.log(res.data);
       })

@@ -5,6 +5,7 @@ import axios from "axios";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import AuthContext from "../../context/AuthContext";
+import { BASE_URL } from "../../config";
 
 export default function FeedbackItem({
   feedback: { attributes, id },
@@ -42,7 +43,7 @@ export default function FeedbackItem({
     };
 
     await axios
-      .put(`http://localhost:1337/api/feedbacks/${id}`, { data }, config)
+      .put(`${BASE_URL}/api/feedbacks/${id}`, { data }, config)
       .then((res) => {
         console.log(res.data);
       })
@@ -74,8 +75,10 @@ export default function FeedbackItem({
           <img src="/assets/shared/icon-comments.svg" alt="" />
           {updatedNum
             ? updatedNum
-            : attributes.comments.data
+            : attributes.comments.data && attributes.replies
             ? attributes.comments.data.length + attributes.replies.data.length
+            : attributes.comments.data && !attributes.replies
+            ? attributes.comments.data.length
             : 0}
         </F.RightSide>
       </F.Desk>
@@ -101,8 +104,10 @@ export default function FeedbackItem({
             <img src="/assets/shared/icon-comments.svg" alt="" />
             {updatedNum
               ? updatedNum
-              : attributes.comments.data
+              : attributes.comments.data && attributes.replies
               ? attributes.comments.data.length + attributes.replies.data.length
+              : attributes.comments.data && !attributes.replies
+              ? attributes.comments.data
               : 0}
           </F.RightSide>
         </W.SpaceOut>

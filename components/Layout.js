@@ -13,11 +13,11 @@ export default function Layout({ title, keywords, desc, children }) {
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
           integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
-          crossorigin="anonymous"
-          referrerpolicy="no-referrer"
+          crossOrigin="anonymous"
+          referrerPolicy="no-referrer"
         />
       </Head>
-      <LayoutContainer>{children}</LayoutContainer>
+      <LayoutContainer id="layout">{children}</LayoutContainer>
     </div>
   );
 }
@@ -39,5 +39,21 @@ const LayoutContainer = styled.div`
 
   @media only screen and (max-width: 500px) {
     padding-top: 34px;
+  }
+
+  @media only screen and (max-width: 700px) {
+    &.overlay {
+      &:after {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: #000;
+        opacity: 0.6;
+        z-index: 18;
+      }
+    }
   }
 `;

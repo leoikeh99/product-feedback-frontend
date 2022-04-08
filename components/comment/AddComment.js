@@ -7,6 +7,7 @@ import * as B from "../../styles/widgets/Buttons";
 import { Loader1 } from "../../styles/LoaderStyles";
 import AuthContext from "../../context/AuthContext";
 import { toast } from "react-toastify";
+import { BASE_URL } from "../../config";
 
 export default function AddComment({ feedback, addComment, token }) {
   const [message, setMessage] = useState("");
@@ -32,12 +33,10 @@ export default function AddComment({ feedback, addComment, token }) {
 
     setLoader(true);
     await axios
-      .post("http://localhost:1337/api/comments/", { data }, config)
+      .post(`${BASE_URL}/api/comments/`, { data }, config)
       .then(async (res) => {
         await axios
-          .get(
-            `http://localhost:1337/api/comments/${res.data.data.id}/?populate=*`
-          )
+          .get(`${BASE_URL}/api/comments/${res.data.data.id}/?populate=*`)
           .then((res2) => {
             addComment(res2.data.data);
           })

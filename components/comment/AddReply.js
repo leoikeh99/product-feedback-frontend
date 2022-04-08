@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import AuthContext from "../../context/AuthContext";
 import BtnLoader from "../BtnLoader";
+import { BASE_URL } from "../../config";
 
 export default function AddReply({
   commentId,
@@ -43,12 +44,10 @@ export default function AddReply({
     setLoader(true);
 
     await axios
-      .post("http://localhost:1337/api/replies/", { data }, config)
+      .post(`${BASE_URL}/api/replies/`, { data }, config)
       .then(async (res) => {
         await axios
-          .get(
-            `http://localhost:1337/api/replies/${res.data.data.id}/?populate=*`
-          )
+          .get(`${BASE_URL}/api/replies/${res.data.data.id}/?populate=*`)
           .then((res2) => {
             addReply(res2.data.data);
           })

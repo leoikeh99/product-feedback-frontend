@@ -11,6 +11,7 @@ import { parseCookies } from "../../../helpers";
 import AuthContext from "../../../context/AuthContext";
 import { SpaceOut } from "../../../styles/widgets";
 import BtnLoader from "../../../components/BtnLoader";
+import { BASE_URL } from "../../../config";
 
 export default function EditFeedback({ feedback: { attributes, id }, token }) {
   const [active, setActive] = useState(attributes.tag);
@@ -60,11 +61,7 @@ export default function EditFeedback({ feedback: { attributes, id }, token }) {
     setLoader("edit");
 
     await axios
-      .put(
-        `http://localhost:1337/api/feedbacks/${id}`,
-        { data: updateData },
-        config
-      )
+      .put(`${BASE_URL}/api/feedbacks/${id}`, { data: updateData }, config)
       .then((res) => {
         toast.success("Feedback updated");
       })
@@ -93,7 +90,7 @@ export default function EditFeedback({ feedback: { attributes, id }, token }) {
     setLoader("delete");
 
     await axios
-      .delete(`http://localhost:1337/api/feedbacks/${id}`, config)
+      .delete(`${BASE_URL}/api/feedbacks/${id}`, config)
       .then((res) => {
         toast.success("Feedback deleted");
         router.push("/");
@@ -164,9 +161,7 @@ export default function EditFeedback({ feedback: { attributes, id }, token }) {
 }
 
 export async function getServerSideProps({ req, params: { id } }) {
-  const res = await axios.get(
-    `http://localhost:1337/api/feedbacks/${id}/?populate=*`
-  );
+  const res = await axios.get(`${BASE_URL}/api/feedbacks/${id}/?populate=*`);
 
   const { token } = parseCookies(req);
 

@@ -7,16 +7,20 @@ const TopBar = () => {
   const openSideBar = () => {
     setOpen(true);
     const sideBar = document.getElementById("sidebar");
+    const layout = document.getElementById("layout");
     if (!sideBar.classList.contains("comeIn")) {
       sideBar.classList.add("comeIn");
+      layout.classList.add("overlay");
     }
   };
 
   const closeSideBar = () => {
     setOpen(false);
     const sideBar = document.getElementById("sidebar");
+    const layout = document.getElementById("layout");
     if (sideBar.classList.contains("comeIn")) {
       sideBar.classList.remove("comeIn");
+      layout.classList.remove("overlay");
     }
   };
 
