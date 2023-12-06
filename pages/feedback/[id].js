@@ -81,6 +81,8 @@ export async function getServerSideProps({
 
   const { token } = parseCookies(req);
 
+  console.log(res.data.data)
+
   return {
     props: {
       feedback: res.data.data,

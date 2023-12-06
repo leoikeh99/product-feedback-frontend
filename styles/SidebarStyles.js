@@ -116,7 +116,7 @@ export const ProfileCard = styled.div`
   img {
     height: 45px;
     width: 45px;
-    border-radius: 50%;
+    border-radius: 3px;
     border: 2px solid #3a4374;
   }
 

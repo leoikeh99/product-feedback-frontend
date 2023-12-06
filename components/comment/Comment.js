@@ -23,7 +23,7 @@ export default function Comment({
       <W.SpaceOut>
         <F.TopSection>
           <F.Avatar
-            src={attributes.user.data.attributes.avatar}
+            src={`https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=${attributes.user.data.attributes.username}`}
             height={40}
             width={40}
           />

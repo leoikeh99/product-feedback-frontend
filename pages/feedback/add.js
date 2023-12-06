@@ -47,6 +47,8 @@ export default function AddFeedback({ token, from }) {
       ...data,
       tag: active,
       upvotes: [],
+      roadmap: from === "roadmap" ? true : false,
+      status: "Planned",
     };
 
     setLoader(true);

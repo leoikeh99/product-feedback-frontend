@@ -68,7 +68,8 @@ export default function Home({ feedbacks, token, sidebarData }) {
                       <motion.div
                         key={feedback.id}
                         {...feedbackItemAnim}
-                        layout>
+                        layout
+                      >
                         <FeedbackItem feedback={feedback} token={token} />
                       </motion.div>
                     )

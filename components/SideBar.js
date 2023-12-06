@@ -20,7 +20,10 @@ export default function SideBar({ activeTag, setActiveTag, data }) {
         <S.ProfileCard small>
           {user ? (
             <>
-              <img src={user.avatar} alt="" />
+              <img
+                src={`https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=${user.username}`}
+                alt=""
+              />
               <div>
                 <p>{user.username}</p>
                 <i className="fa-solid fa-power-off" onClick={() => logout()}>
@@ -42,7 +45,8 @@ export default function SideBar({ activeTag, setActiveTag, data }) {
             <W.Tag
               key={tag}
               active={activeTag === tag}
-              onClick={() => setActiveTag(tag)}>
+              onClick={() => setActiveTag(tag)}
+            >
               {tag}
             </W.Tag>
           ))}
@@ -79,7 +83,10 @@ export default function SideBar({ activeTag, setActiveTag, data }) {
       <S.ProfileCard>
         {user ? (
           <>
-            <img src={user.avatar} alt="" />
+            <img
+              src={`https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=${user.username}`}
+              alt=""
+            />
             <div>
               <p>{user.username}</p>
               <i className="fa-solid fa-power-off" onClick={() => logout()}>
